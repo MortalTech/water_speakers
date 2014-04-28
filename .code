@@ -1,2 +1,118 @@
-water_speakers
-==============
+int receiverpin = 11;
+int led = 3;  //B
+int onOff=0;
+int channel = 0;
+int color = 50;
+int brightness = 0;
+int fadeAmount = 5;
+int f=0;
+#include <IRremote.h>         	
+IRrecv irrecv(receiverpin); 	
+decode_results results;         	 
+
+void setup(){
+  Serial.begin(9600);
+  irrecv.enableIRIn();
+  pinMode(led,OUTPUT);
+
+}
+
+void loop(){
+  if(irrecv.decode(&results)){
+	switch(results.value){
+  	
+  	
+  	
+  	
+  	//on and off
+  case 0xA90:
+ 
+  	if(onOff==1){
+    	digitalWrite(led,LOW);
+        onOff=0;
+    	
+    	delay(500);
+  	}
+  	else{
+    	digitalWrite(led,HIGH);
+        onOff=1;
+    	delay(500);
+  	}
+  
+  	break;
+  	
+  	
+  	
+  case 0x010:
+
+  	if(onOff<10){
+    	digitalWrite(led,HIGH);
+    delay(100);
+    	    	digitalWrite(led,LOW);
+    delay(100);
+       digitalWrite(led,HIGH);
+       delay(100);
+   	digitalWrite(led,LOW);
+ delay(100);
+    digitalWrite(led,HIGH);
+    	delay(100);
+    	digitalWrite(led,LOW);
+    delay(100);
+    digitalWrite(led,HIGH);
+    	delay(100);
+    	digitalWrite(led,LOW);
+    delay(100);
+    digitalWrite(led,HIGH);
+    	delay(100);
+    	digitalWrite(led,LOW);
+    
+    onOff++;
+    
+
+  }
+  
+  
+  	break;
+  	
+  case 0x810:
+
+  case 0xC10:
+  	analogWrite(led,255);
+        break;
+        
+  case 0x210:
+  	analogWrite(led,255);
+        break;
+        
+  case 0xA10:
+  	analogWrite(led,255);
+        break;
+  
+  case 0x610:
+  	analogWrite(led,255);
+        break;
+        
+        case 0xE10:
+  	analogWrite(led,210);
+        break;
+        
+ case 0x110:
+  	analogWrite(led,250);
+        break;
+        
+  case 0x910:
+  	analogWrite(led,255);
+        break;
+        
+	}
+
+   if (irrecv.decode(&results)){
+ 	Serial.print(results.value,HEX);
+ 	Serial.print(" ");
+ 	irrecv.resume();
+ 	
+  	
+	}
+  }
+}
+ 
